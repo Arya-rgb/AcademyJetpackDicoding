@@ -1,6 +1,7 @@
 package com.project.academy.utils
 
 import com.project.academy.data.CourseEntity
+import com.project.academy.data.ModuleEntity
 
 object DataDummy {
 
@@ -39,5 +40,13 @@ object DataDummy {
 
         return courses
     }
+
+    fun generateDummyModule(courseId: String):List<ModuleEntity> {
+        val courses = ArrayList<ModuleEntity>()
+
+
+        return courses
+    }
+
 
 }
