@@ -49,6 +49,7 @@ class AcademyAdapter : RecyclerView.Adapter<AcademyAdapter.CourseViewHolder>() {
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, DetailCourseActivity::class.java)
                     intent.putExtra(DetailCourseActivity.EXTRA_COURSE, course.courseId)
+                    itemView.context.startActivity(intent)
                 }
                 Glide.with(itemView.context)
                     .load(course.imagePath)

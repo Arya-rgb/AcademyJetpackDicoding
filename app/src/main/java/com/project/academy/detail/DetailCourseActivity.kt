@@ -1,10 +1,13 @@
 package com.project.academy.detail
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -49,17 +52,17 @@ class DetailCourseActivity : AppCompatActivity() {
 
         val adapter = DetailCourseAdapter()
 
+        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[DetailCourseViewModel::class.java]
+
+
         val extras = intent.extras
         if (null != extras) {
             val courseId = extras.getString(EXTRA_COURSE)
             if (null != courseId) {
-                val modules = DataDummy.generateDummyModule(courseId)
+                viewModel.setSelectedCourse(courseId)
+                val modules = viewModel.getModule()
                 adapter.setModules(modules)
-                for (course in DataDummy.generateDummyCourse()) {
-                    if (course.courseId == courseId) {
-                        populateCourse(course)
-                    }
-                }
+                populateCourse(viewModel.getCourse() as CourseEntity)
             }
         }
 

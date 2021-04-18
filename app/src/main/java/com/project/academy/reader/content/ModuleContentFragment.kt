@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.project.academy.R
 import com.project.academy.data.ContentEntity
+import com.project.academy.data.ModuleEntity
 import com.project.academy.databinding.FragmentModuleContentBinding
+import com.project.academy.reader.CourseReaderViewModel
 
 class ModuleContentFragment : Fragment() {
 
@@ -30,15 +33,14 @@ class ModuleContentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (null != activity) {
-            val content = ContentEntity(("<h3 class=\\\"fr-text-bordered\\\">Contoh Content</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"))
-
-            populateWebView(content)
-
+            val viewModel = ViewModelProvider(requireActivity(), ViewModelProvider.NewInstanceFactory())[CourseReaderViewModel::class.java]
+            val module = viewModel.getSelectedModule()
+            populateWebView(module)
         }
     }
 
-    private fun populateWebView(content: ContentEntity) {
-        fragmentModuleContentFragment.webView.loadData(content.content ?: "", "text/html", "UTF-8")
+    private fun populateWebView(module: ModuleEntity) {
+        fragmentModuleContentFragment.webView.loadData(module.contentEntity?.content ?: "", "text/html", "UTF-8")
     }
 
 }
