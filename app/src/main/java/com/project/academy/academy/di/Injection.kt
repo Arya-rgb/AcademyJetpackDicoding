@@ -9,7 +9,7 @@ object Injection {
 
     fun provideRepository(context: Context): AcademyRepository {
         val remoteDataSource = RemoteDataSource.getInstance(JsonHelper(context))
-        return AcademyRepository.getInstances(remoteDataSource)
+        return AcademyRepository.getInstance(remoteDataSource)
     }
 
 }

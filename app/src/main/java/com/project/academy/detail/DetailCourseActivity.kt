@@ -3,6 +3,7 @@ package com.project.academy.detail
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.view.View
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -61,10 +62,19 @@ class DetailCourseActivity : AppCompatActivity() {
         if (null != extras) {
             val courseId = extras.getString(EXTRA_COURSE)
             if (null != courseId) {
+
+                activityDetailCourseBinding.progressBar.visibility = View.VISIBLE
+                activityDetailCourseBinding.content.visibility = View.INVISIBLE
+
                 viewModel.setSelectedCourse(courseId)
-                val modules = viewModel.getModule()
-                adapter.setModules(modules)
-                populateCourse(viewModel.getCourse() as CourseEntity)
+                viewModel.getModule().observe(this, { modules ->
+                    activityDetailCourseBinding.progressBar.visibility = View.GONE
+                    activityDetailCourseBinding.content.visibility = View.VISIBLE
+
+                    adapter.setModules(modules)
+                    adapter.notifyDataSetChanged()
+                })
+                viewModel.getCourse().observe(this, { course -> populateCourse(course) })
             }
         }
 
